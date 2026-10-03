@@ -28,6 +28,11 @@
     for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
     return a;
   }
+  let msgTimer;
+  function say(text) {
+    const m = $("msg"); m.textContent = text; m.hidden = false;
+    clearTimeout(msgTimer); msgTimer = setTimeout(() => (m.hidden = true), 8000);
+  }
   const cls = () => Number($("cls").value);
   const subject = () => $("subject").value;
   const chapterInfo = () => window.CHAPTERS[cls() + "-" + subject()];
@@ -82,7 +87,7 @@
     let pool = candidates(part.sec).filter((q) => !inUse.has(q.id));
     const sameCh = cur ? pool.filter((q) => q.chapter === cur.chapter) : [];
     pool = sameCh.length ? sameCh : pool;
-    if (!pool.length) { alert("No other unused question matches this slot. Add more questions to the bank."); return; }
+    if (!pool.length) { say("No other unused question matches this slot. Add more questions to the bank."); return; }
     part.slots[qi] = pool[Math.floor(Math.random() * pool.length)];
     renderAll();
   }
@@ -222,7 +227,7 @@
       addQuestion({ cls: Number(o.class), subject: o.subject || "Maths", chapter: Number(o.chapter), marks: Number(o.marks), text: o.text, answer: o.answer, opts: [o.optA, o.optB, o.optC, o.optD] });
       added++;
     });
-    alert("Imported " + added + " of " + rows.length + " rows. Rows missing text, answer, marks or chapter were skipped.");
+    say("Imported " + added + " of " + rows.length + " rows. Rows missing text, answer, marks or chapter were skipped.");
   }
   function addQuestion(f) {
     const opts = (f.opts || []).map((s) => (s || "").trim());
@@ -257,7 +262,7 @@
     $("generate").addEventListener("click", () => { state.seed = Math.floor(Math.random() * 1e9); generate(); });
     ["school", "session", "instructions"].forEach((id) => $(id).addEventListener("input", renderAll));
     $("hideSample").addEventListener("change", (e) => { state.hideSample = e.target.checked; renderAll(); });
-    $("exportCsv").addEventListener("click", exportCsv);
+    if ($("exportCsv")) $("exportCsv").addEventListener("click", exportCsv);
     $("importCsv").addEventListener("change", (e) => {
       const f = e.target.files[0]; if (!f) return;
       f.text().then((t) => { importCsv(t); renderAll(); e.target.value = ""; });
@@ -274,7 +279,7 @@
       ["paper", "key", "bank"].forEach((t) => ($("tab-" + t).hidden = t !== b.dataset.tab));
       document.body.classList.toggle("print-key", b.dataset.tab === "key");
     }));
-    $("print").addEventListener("click", () => window.print());
+    if ($("print")) $("print").addEventListener("click", () => window.print());
     resetChapters();
   }
   init();
