@@ -10,7 +10,7 @@ A simple daily-use tool for one teacher (Varnika's mother) at a CBSE school in A
 |---|---|
 | Users | Her only (single teacher) |
 | Board / books | CBSE. Maths: R S Aggarwal, Book 1 and Book 2 (NCF-aligned, Bharati Bhawan). Science book not yet known |
-| Language | Bilingual Hindi / English |
+| Language | Bilingual Hindi / English for the diary and voice input. **Question papers are in English only** (confirmed 3 Oct 2026) |
 | Devices | Android phone for daily logging, laptop for plans and papers |
 | AI | Optional: drafts only, she edits everything |
 | Student data | Class-level performance only, no student names |
@@ -48,7 +48,7 @@ https://claude.ai/artifact/KfaH1FsYKdfGN2k8jwDeuo (7 screens: Today, Voice log, 
 ## Open questions (ask her)
 1. Are typed or printed lesson plans accepted, or must they be handwritten? This decides the lesson plan feature.
 2. Which class is the second contents page from?
-3. Does the 80-mark pattern apply to Classes 6-8 and to Science? Is there internal choice?
+3. Does the 80-mark pattern apply to Classes 6-8 and to Science? Is there internal choice? (still unconfirmed, 3 Oct 2026)
 4. Is Book 1 used for the half-yearly exam and Book 2 for the annual exam?
 5. Is a blank lesson plan form available as a Word or PDF file?
 6. Teaching diary: one entry per period, or a daily summary? Does it need a signature space?
@@ -57,7 +57,7 @@ https://claude.ai/artifact/KfaH1FsYKdfGN2k8jwDeuo (7 screens: Today, Voice log, 
 ## Still needed from her
 - Book 1 contents pages (all classes) and Class 6 Book 2 contents
 - Science textbook and chapter lists
-- Unit test and annual exam patterns; question paper header and instructions
+- Unit test and annual exam patterns; question paper header and instructions (still unconfirmed, 3 Oct 2026)
 - Teaching diary format
 - Exam calendar
 
@@ -85,4 +85,5 @@ https://claude.ai/artifact/KfaH1FsYKdfGN2k8jwDeuo (7 screens: Today, Voice log, 
 - Paper builder runs in any browser with no install (open `prototype/paper-builder/index.html`).
 - Question bank in the prototype is **sample data written for demonstration**, not taken from R S Aggarwal. Replace it with her own questions (CSV import, same columns as the planned `QuestionBank` Sheet tab).
 - Exam patterns: only the Half Yearly Maths 80-mark pattern comes from a real school paper. Everything else is a placeholder flagged in the UI until open questions 3 and 4 are answered.
-- Not built yet: Hindi question text, Science chapters, Book 1 chapters, Word template (`{{placeholders}}`) export, Apps Script version, AI suggestions.
+- Question papers are English only, so no Hindi question text is planned.
+- Not built yet: Science chapters, Book 1 chapters, Word template (`{{placeholders}}`) export, Apps Script version, AI suggestions.

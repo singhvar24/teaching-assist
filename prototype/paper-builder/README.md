@@ -22,5 +22,5 @@ Open `index.html` in any browser. No install, no server, works offline. Needs th
 ## Known limits (prototype)
 - Half Yearly pattern is real (80 marks, 38 questions). The Unit/Mid-term pattern is a **placeholder**.
 - Only Class 7 and Class 8 Maths chapters are listed; Class 8 is an assumption. No Science or Class 6 chapters yet.
-- English only. No internal choice, no Word template export, no AI suggestions, no diary link (chapters are ticked by hand).
+- English only, which is confirmed as the paper language. No internal choice, no Word template export, no AI suggestions, no diary link (chapters are ticked by hand).
 - Maths is typed as plain text (for example `x/3`, `½`, `△ABC`). Diagrams are not supported yet.
