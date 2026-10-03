@@ -25,7 +25,8 @@
     numbering: "1.", continuous: "yes", marksPos: "right", optLayout: "2col", secStyle: "line", answerLines: 0,
     secTotals: true, secBreak: false, showEnd: true, watermark: "", footer: "", shuffleOptions: false,
     key: { title: "Answer Key", layout: "list", mcq: "full", showHeader: true, showQ: true, showMarks: true,
-      showChapter: false, showSecTotals: true, showTeacher: false, note: "" }
+      showChapter: false, showSecTotals: true, showTeacher: false, note: "",
+      solution: "steps", stepLabel: "Step 1", showReasons: true, showStepMarks: true, finalBox: true }
   });
   const merge = (base, over) => {
     if (!over || typeof over !== "object") return base;
@@ -202,6 +203,13 @@
 .sheet .addq{margin-top:4px}
 .sheet .end{text-align:center;margin-top:18px;font-weight:600}
 .sheet .ans{color:#0b3d66}
+.sheet .sol{margin-top:2px}
+.sheet .st{display:grid;grid-template-columns:auto 1fr minmax(0,34%) auto;gap:0 10px;padding:1px 0;align-items:baseline}
+.sheet .st .sl{font-weight:600;white-space:nowrap}
+.sheet .st .sr{font-style:italic;color:#444;font-size:.92em}
+.sheet .st .sm{white-space:nowrap;font-size:.9em}
+.sheet .fin{display:inline-block;margin-top:3px;padding:1px 8px;border:1px solid #000}
+.sheet .solimg{display:block;max-width:100%;max-height:120mm;margin:4px 0;border:1px solid #bbb}
 .sheet .nt{margin-top:14px;font-size:.92em;white-space:pre-wrap}
 .sheet table.kt{width:100%;border-collapse:collapse;font-size:.95em;margin-top:4px}
 .sheet table.kt th,.sheet table.kt td{border:1px solid #000;padding:3px 6px;text-align:left;vertical-align:top}
@@ -299,6 +307,40 @@
     return html;
   }
 
+  // ---------- step-by-step solutions ----------
+  const spread = (total, n) => {
+    if (!n) return [];
+    const base = Math.floor((total / n) * 2) / 2, a = Array(n).fill(base);
+    a[n - 1] = +(total - base * (n - 1)).toFixed(1); return a;
+  };
+  function autoSteps(q) {
+    const parts = (q.answer || "").split(/;\s*/).map((x) => x.trim()).filter(Boolean);
+    const m = spread(Number(q.marks) || 0, parts.length);
+    return parts.map((w, i) => ({ work: w, reason: "", marks: m[i] }));
+  }
+  const hasSteps = (q) => !!(q.steps && q.steps.length);
+  const solSteps = (q) => (hasSteps(q) ? q.steps : autoSteps(q));
+  const stepSum = (steps) => steps.reduce((t, s) => t + (Number(s.marks) || 0), 0);
+  const stepLabel = (i) => { const f = state.S.key.stepLabel; return f === "none" ? "" : f === "1." ? i + 1 + "." : "Step " + (i + 1); };
+
+  function stepsHtml(q) {
+    const K = state.S.key, steps = solSteps(q);
+    if (steps.length <= 1 && !(steps[0] && steps[0].reason)) return '<div class="ans"><strong>Ans:</strong> ' + esc(steps[0] ? steps[0].work : q.answer) + "</div>";
+    return '<div class="sol">' + steps.map((st, i) => '<div class="st"><span class="sl">' + esc(stepLabel(i)) + '</span><span class="sw">' + esc(st.work) + "</span>" +
+      (K.showReasons && st.reason ? '<span class="sr">' + esc(st.reason) + "</span>" : "<span></span>") +
+      (K.showStepMarks ? '<span class="sm">[' + esc(st.marks) + "]</span>" : "<span></span>") + "</div>").join("") + "</div>" +
+      (hasSteps(q) && K.finalBox && q.answer ? '<div class="fin"><strong>Ans:</strong> ' + esc(q.answer) + "</div>" : "");
+  }
+  function solutionHtml(q) {
+    const K = state.S.key;
+    if (q.type === "mcq") return '<div class="ans"><strong>Ans:</strong> ' + esc(mcqAns(q)) + "</div>";
+    const photo = q.photo ? '<img class="solimg" src="' + esc(q.photo) + '" alt="Worked solution">' : "";
+    const mode = q.photo ? q.photoMode || "typed" : "typed";
+    if (K.solution === "final") return '<div class="ans"><strong>Ans:</strong> ' + esc(hasSteps(q) ? q.answer : q.answer) + "</div>" + (mode === "photo" ? photo : "");
+    if (mode === "photo") return photo + (q.answer ? '<div class="fin"><strong>Ans:</strong> ' + esc(q.answer) + "</div>" : "");
+    return stepsHtml(q) + (mode === "both" ? photo : "");
+  }
+
   function mcqAns(q) {
     const a = q.answer || "";
     if (q.type === "mcq" && state.S.key.mcq === "letter") { const m = /^\(?([a-d])\)?/i.exec(a); if (m) return "(" + m[1].toLowerCase() + ")"; }
@@ -318,13 +360,13 @@
       html += '<div class="sec"><h3 class="' + S.secStyle + '"><span>' + esc(secTitle(s)) + "</span><span>" + esc(right) + "</span></h3>";
       if (K.layout === "table") {
         html += '<table class="kt"><tr><th>No.</th>' + (K.showQ ? "<th>Question</th>" : "") + "<th>Answer</th>" + (K.showMarks ? "<th>Marks</th>" : "") + (K.showChapter ? "<th>Chapter</th>" : "") + "</tr>";
-        part.slots.forEach((q) => { n++; html += "<tr><td>" + esc(numLabel(n)) + "</td>" + (K.showQ ? "<td>" + esc(q ? q.text : "") + "</td>" : "") + "<td>" + (q ? esc(mcqAns(q)) : "—") + "</td>" + (K.showMarks ? "<td>" + (q ? esc(q.marks) : "") + "</td>" : "") + (K.showChapter ? "<td>" + (q ? esc(chapterName(q.chapter)) : "") + "</td>" : "") + "</tr>"; });
+        part.slots.forEach((q) => { n++; html += "<tr><td>" + esc(numLabel(n)) + "</td>" + (K.showQ ? "<td>" + esc(q ? q.text : "") + "</td>" : "") + "<td>" + (q ? solutionHtml(q) : "—") + "</td>" + (K.showMarks ? "<td>" + (q ? esc(q.marks) : "") + "</td>" : "") + (K.showChapter ? "<td>" + (q ? esc(chapterName(q.chapter)) : "") + "</td>" : "") + "</tr>"; });
         html += "</table>";
       } else {
         part.slots.forEach((q) => {
           n++;
           html += '<div class="q' + (K.showMarks ? "" : " nm") + '"><span>' + esc(numLabel(n)) + "</span><div>" +
-            (q ? (K.showQ ? '<div class="qt">' + esc(q.text) + "</div>" : "") + '<div class="ans"><strong>Ans:</strong> ' + esc(mcqAns(q)) + "</div>" +
+            (q ? (K.showQ ? '<div class="qt">' + esc(q.text) + "</div>" : "") + solutionHtml(q) +
               (K.showChapter ? '<div style="font-size:.8em;color:#555">' + esc(chapterName(q.chapter)) + "</div>" : "") : '<div class="qt">—</div>') +
             "</div>" + (K.showMarks ? '<span class="mk">[' + (q ? esc(q.marks) : "") + "]</span>" : "") + "</div>";
         });
@@ -338,43 +380,137 @@
   }
 
   // ---------- editor for a single question ----------
+  const SYMBOLS = ["½", "¼", "¾", "²", "³", "√", "×", "÷", "±", "≠", "≤", "≥", "°", "π", "∠", "△", "≅", "∴", "⇒", "−", "₹"];
+  function draftFrom(q, sec) {
+    q = q || { text: "", opts: [], answer: "", marks: sec.marks, type: "written", chapter: null };
+    const written = q.type !== "mcq";
+    return { id: q.id, chapter: q.chapter, text: q.text, opts: q.opts.length ? q.opts.slice() : ["", "", "", ""], answer: q.answer || "", marks: q.marks,
+      steps: written ? clone(hasSteps(q) ? q.steps : q.answer ? autoSteps(q) : []) : [], photo: q.photo || "", photoMode: q.photoMode || "typed" };
+  }
+  function openEd(si, qi, isNew) {
+    state.ed = { si, qi, isNew, draft: draftFrom(state.paper[si].slots[qi], state.paper[si].sec) }; renderAll();
+  }
+  function collectDraft() {
+    const d = state.ed.draft; if (!$("ed-text")) return d;
+    d.text = $("ed-text").value; d.opts = [0, 1, 2, 3].map((i) => $("ed-o" + i).value); d.answer = $("ed-ans").value; d.marks = Number($("ed-marks").value) || 0;
+    d.steps = [...document.querySelectorAll("#ed-steps .stp")].map((r) => ({ work: r.querySelector('[data-k="work"]').value, reason: r.querySelector('[data-k="reason"]').value, marks: Number(r.querySelector('[data-k="marks"]').value) || 0 }));
+    d.photoMode = $("ed-pmode").value; return d;
+  }
+  function draftToQ(d) {
+    const opts = d.opts.map((x) => x.trim()), mcq = opts.every(Boolean);
+    const q = { id: d.id || "N" + Date.now().toString(36), cls: cls(), subject: subject(), chapter: d.chapter, marks: Number(d.marks) || 0, text: d.text.trim(),
+      answer: d.answer.trim(), type: mcq ? "mcq" : "written", opts: mcq ? opts : [], source: "mine" };
+    if (!mcq) {
+      const steps = d.steps.filter((x) => x.work.trim()).map((x) => ({ work: x.work.trim(), reason: x.reason.trim(), marks: Number(x.marks) || 0 }));
+      if (steps.length) q.steps = steps;
+      if (d.photo) { q.photo = d.photo; q.photoMode = d.photoMode; }
+    }
+    return q;
+  }
+  const tidy = (t) => t.replace(/\^2/g, "²").replace(/\^3/g, "³").replace(/sqrt\(([^)]*)\)/gi, "√$1").replace(/<=/g, "≤").replace(/>=/g, "≥").replace(/!=/g, "≠").replace(/->/g, "→")
+    .replace(/(\d)\s*\*\s*(\d|\()/g, "$1 × $2").replace(/\s\*\s/g, " × ").replace(/\bdeg\b/gi, "°").replace(/ - /g, " − ");
+
+  function markCheck() {
+    const el = $("ed-mcheck"); if (!el) return;
+    const rows = [...document.querySelectorAll("#ed-steps [data-k=marks]")].map((i) => Number(i.value) || 0);
+    const sum = rows.reduce((t, x) => t + x, 0), total = Number($("ed-marks").value) || 0;
+    el.textContent = rows.length ? "Step marks add up to " + sum + " of " + total + (Math.abs(sum - total) < 0.01 ? " ✓" : " — does not match the question marks") : "No steps yet.";
+    el.className = "note" + (rows.length && Math.abs(sum - total) >= 0.01 ? " bad" : "");
+  }
+
   function renderEditor() {
-    const box = $("editor"); const ed = state.ed;
+    const box = $("editor"), ed = state.ed;
     if (!ed) { box.innerHTML = ""; return; }
-    const q = state.paper[ed.si].slots[ed.qi] || { text: "", opts: ["", "", "", ""], answer: "", marks: state.paper[ed.si].sec.marks, type: "written", chapter: null };
-    const o = q.opts.length ? q.opts : ["", "", "", ""];
-    box.innerHTML = '<form class="editor" id="edForm"><h2>' + (ed.isNew ? "New question" : "Edit question") + " · Section " + esc(state.paper[ed.si].sec.name) + "</h2>" +
-      '<label>Question text<textarea id="ed-text" rows="3" required>' + esc(q.text) + "</textarea></label>" +
-      '<div class="row4">' + o.map((v, i) => "<label>Option (" + optLetter(i) + ')<input id="ed-o' + i + '" value="' + esc(v) + '"></label>').join("") + "</div>" +
+    const d = ed.draft, sec = state.paper[ed.si].sec;
+    box.innerHTML = '<form class="editor" id="edForm"><h2>' + (ed.isNew ? "New question" : "Edit question") + " · Section " + esc(sec.name) + "</h2>" +
+      '<label>Question text<textarea id="ed-text" rows="3" required>' + esc(d.text) + "</textarea></label>" +
+      '<div class="row4">' + d.opts.map((v, i) => "<label>Option (" + optLetter(i) + ')<input id="ed-o' + i + '" value="' + esc(v) + '"></label>').join("") + "</div>" +
       '<p class="note">Fill all four options for an MCQ; leave them empty for a written question.</p>' +
-      '<div class="row2"><label>Answer<input id="ed-ans" value="' + esc(q.answer) + '"></label><label>Marks<input id="ed-marks" type="number" min="0" step="0.5" value="' + esc(q.marks) + '"></label></div>' +
+      '<div class="row2"><label>Final answer<input id="ed-ans" value="' + esc(d.answer) + '"></label><label>Marks<input id="ed-marks" type="number" min="0" step="0.5" value="' + esc(d.marks) + '"></label></div>' +
+      '<fieldset id="ed-sol"><legend>Step-by-step solution (written questions)</legend>' +
+      '<div class="syms" role="toolbar" aria-label="Insert a maths symbol">' + SYMBOLS.map((c) => '<button type="button" data-ins="' + c + '" aria-label="Insert ' + c + '">' + c + "</button>").join("") + "</div>" +
+      '<div id="ed-steps">' + d.steps.map((st, i) => '<div class="stp" data-i="' + i + '"><span class="n">' + (i + 1) + "</span>" +
+        '<input data-k="work" placeholder="Working, e.g. 3x − 6 = 2x + 5" value="' + esc(st.work) + '" aria-label="Step ' + (i + 1) + ' working">' +
+        '<input data-k="reason" placeholder="Reason (optional)" value="' + esc(st.reason) + '" aria-label="Step ' + (i + 1) + ' reason">' +
+        '<input data-k="marks" type="number" min="0" step="0.5" value="' + esc(st.marks) + '" aria-label="Step ' + (i + 1) + ' marks">' +
+        '<span class="mv"><button type="button" data-sact="up" aria-label="Move step up">↑</button><button type="button" data-sact="down" aria-label="Move step down">↓</button><button type="button" data-sact="rm" aria-label="Remove step">✕</button></span></div>').join("") + "</div>" +
+      '<p id="ed-mcheck" class="note"></p>' +
+      '<div class="actions"><button type="button" id="stAdd">+ Add step</button><button type="button" id="stSplit">Split the final answer into steps</button><button type="button" id="stSpread">Spread marks evenly</button><button type="button" id="stTidy">Tidy symbols (x^2 → x², * → ×)</button></div>' +
+      '<div class="row2"><div><label class="btn">Attach photo of her handwritten solution<input type="file" id="ed-photo" accept="image/*" hidden></label>' +
+      (d.photo ? ' <button type="button" id="ed-photoRm">Remove photo</button>' : "") + "</div>" +
+      '<label>In the answer key show<select id="ed-pmode"><option value="typed"' + (d.photoMode === "typed" ? " selected" : "") + '>Typed steps only</option><option value="photo"' + (d.photoMode === "photo" ? " selected" : "") + '>Photo only</option><option value="both"' + (d.photoMode === "both" ? " selected" : "") + ">Typed steps and photo</option></select></label></div>" +
+      (d.photo ? '<img class="thumb" src="' + esc(d.photo) + '" alt="Attached handwritten solution">' : "") + "</fieldset>" +
       '<div class="actions"><button class="primary" type="submit">Apply to this paper</button><button type="button" id="edBank">Apply and save to my bank</button><button type="button" id="edCancel">Cancel</button></div>' +
-      '<p class="note">Edits change only this paper. Save to the bank to reuse the question.</p></form>';
-    const read = () => {
-      const opts = [0, 1, 2, 3].map((i) => $("ed-o" + i).value.trim()); const mcq = opts.every(Boolean);
-      return { id: q.id || "N" + Date.now().toString(36), cls: cls(), subject: subject(), chapter: q.chapter, marks: Number($("ed-marks").value) || 0, text: $("ed-text").value.trim(),
-        answer: $("ed-ans").value.trim(), type: mcq ? "mcq" : "written", opts: mcq ? opts : [], source: "mine" };
+      '<p class="note">Edits change only this paper. Save to the bank to reuse the question and its solution. Photos stay on this device and are not included in CSV.</p></form>';
+
+    let last = null;
+    box.onfocusin = (e) => { if (e.target.matches("input[type=text],input:not([type]),textarea")) last = e.target; };
+    box.onclick = (e) => {
+      const ins = e.target.closest("[data-ins]");
+      if (ins) { const t = last || $("ed-text"); const a = t.selectionStart ?? t.value.length, z = t.selectionEnd ?? a; t.value = t.value.slice(0, a) + ins.dataset.ins + t.value.slice(z); t.focus(); t.selectionStart = t.selectionEnd = a + ins.dataset.ins.length; return; }
+      const sb = e.target.closest("[data-sact]");
+      if (sb) {
+        const d2 = collectDraft(), i = Number(sb.closest(".stp").dataset.i), act = sb.dataset.sact;
+        if (act === "rm") d2.steps.splice(i, 1);
+        else if (act === "up" && i > 0) [d2.steps[i - 1], d2.steps[i]] = [d2.steps[i], d2.steps[i - 1]];
+        else if (act === "down" && i < d2.steps.length - 1) [d2.steps[i + 1], d2.steps[i]] = [d2.steps[i], d2.steps[i + 1]];
+        renderEditor();
+      }
     };
-    $("edForm").addEventListener("submit", (e) => { e.preventDefault(); state.paper[ed.si].slots[ed.qi] = read(); state.ed = null; renderAll(); });
+    box.oninput = (e) => { if (e.target.matches("#ed-steps [data-k=marks], #ed-marks")) markCheck(); };
+    $("stAdd").addEventListener("click", () => { const d2 = collectDraft(); d2.steps.push({ work: "", reason: "", marks: 0 }); renderEditor(); const w = document.querySelectorAll("#ed-steps [data-k=work]"); w[w.length - 1].focus(); });
+    $("stSplit").addEventListener("click", () => {
+      const d2 = collectDraft(), parts = d2.answer.split(/;\s*|\n/).map((x) => x.trim()).filter(Boolean);
+      if (!parts.length) { toast("Type the full working in the Final answer box first, separating steps with a semicolon (;)."); return; }
+      const m = spread(d2.marks, parts.length); d2.steps = parts.map((w, i) => ({ work: w, reason: "", marks: m[i] })); d2.answer = parts[parts.length - 1]; renderEditor();
+    });
+    $("stSpread").addEventListener("click", () => { const d2 = collectDraft(), m = spread(d2.marks, d2.steps.length); d2.steps.forEach((x, i) => (x.marks = m[i])); renderEditor(); });
+    $("stTidy").addEventListener("click", () => { const d2 = collectDraft(); d2.text = tidy(d2.text); d2.answer = tidy(d2.answer); d2.steps.forEach((x) => { x.work = tidy(x.work); x.reason = tidy(x.reason); }); renderEditor(); });
+    $("ed-photo").addEventListener("change", (e) => {
+      const f = e.target.files[0]; if (!f) return; const d2 = collectDraft();
+      resizeImage(f).then((url) => { d2.photo = url; if (d2.photoMode === "typed" && !d2.steps.length) d2.photoMode = "photo"; renderEditor(); }).catch(() => toast("Could not read that image."));
+    });
+    if ($("ed-photoRm")) $("ed-photoRm").addEventListener("click", () => { const d2 = collectDraft(); d2.photo = ""; d2.photoMode = "typed"; renderEditor(); });
+    $("edForm").addEventListener("submit", (e) => { e.preventDefault(); state.paper[ed.si].slots[ed.qi] = draftToQ(collectDraft()); state.ed = null; renderAll(); });
     $("edBank").addEventListener("click", () => {
-      if (!$("ed-text").value.trim()) return; const nq = read();
-      if (!nq.chapter) { toast("Give this question a chapter number in the Question bank tab to save it there. Applied to the paper only."); state.paper[ed.si].slots[ed.qi] = nq; state.ed = null; renderAll(); return; }
-      state.custom.push(Object.assign({}, nq, { id: "C" + Date.now().toString(36) })); saveCustom();
-      state.paper[ed.si].slots[ed.qi] = nq; state.ed = null; toast("Saved to your question bank."); renderAll();
+      const d2 = collectDraft(); if (!d2.text.trim()) return; const nq = draftToQ(d2);
+      state.paper[ed.si].slots[ed.qi] = nq; state.ed = null;
+      if (!nq.chapter) toast("Applied to the paper. Give the question a chapter number in the Question bank tab to save it there.");
+      else { state.custom.push(Object.assign({}, nq, { id: "C" + Date.now().toString(36) })); saveCustom(); toast("Saved to your question bank."); }
+      renderAll();
     });
     $("edCancel").addEventListener("click", () => {
       if (ed.isNew) { const p = state.paper[ed.si]; p.slots.splice(ed.qi, 1); p.sec.count = p.slots.length; }
       state.ed = null; renderAll();
     });
-    $("ed-text").focus(); box.scrollIntoView({ block: "nearest" });
+    markCheck();
+    if (!ed.focused) { ed.focused = true; $("ed-text").focus(); box.scrollIntoView({ block: "nearest" }); }
+  }
+
+  function resizeImage(file, max) {
+    max = max || 1400;
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const k = Math.min(1, max / img.width), c = document.createElement("canvas");
+          c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+          const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+          res(c.toDataURL("image/jpeg", 0.8));
+        };
+        img.onerror = rej; img.src = r.result;
+      };
+      r.onerror = rej; r.readAsDataURL(file);
+    });
   }
 
   function onSheetClick(e) {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const si = Number(b.dataset.si), qi = Number(b.dataset.qi), part = state.paper[si], act = b.dataset.act;
     if (act === "swap") swap(si, qi);
-    else if (act === "edit") { state.ed = { si, qi, isNew: false }; renderAll(); }
-    else if (act === "add") { part.slots.push(null); part.sec.count = part.slots.length; state.ed = { si, qi: part.slots.length - 1, isNew: true }; renderAll(); }
+    else if (act === "edit") openEd(si, qi, false);
+    else if (act === "add") { part.slots.push(null); part.sec.count = part.slots.length; openEd(si, part.slots.length - 1, true); }
     else if (act === "rm") { part.slots.splice(qi, 1); part.sec.count = part.slots.length; renderAll(); }
     else if (act === "up" && qi > 0) { [part.slots[qi - 1], part.slots[qi]] = [part.slots[qi], part.slots[qi - 1]]; renderAll(); }
     else if (act === "down" && qi < part.slots.length - 1) { [part.slots[qi + 1], part.slots[qi]] = [part.slots[qi], part.slots[qi + 1]]; renderAll(); }
@@ -446,9 +582,9 @@
     $("bankTable").innerHTML = "<tr><th>ID</th><th>Class</th><th>Subject</th><th>Ch</th><th>Marks</th><th>Question</th><th>Answer</th><th></th></tr>" +
       all.map((q) => "<tr><td>" + esc(q.id) + "</td><td>" + q.cls + "</td><td>" + esc(q.subject) + "</td><td>" + q.chapter + "</td><td>" + q.marks +
         "</td><td>" + esc(q.text) + (q.type === "mcq" ? "<br><small>" + q.opts.map((o, i) => "(" + optLetter(i) + ") " + esc(o)).join("  ") + "</small>" : "") +
-        "</td><td>" + esc(q.answer) + "</td><td>" + (q.source === "sample" ? "" : '<button type="button" data-del="' + esc(q.id) + '">Delete</button>') + "</td></tr>").join("");
+        "</td><td>" + esc(q.answer) + (hasSteps(q) ? "<br><small>" + q.steps.length + ' steps' + "</small>" : "") + "</td><td>" + (q.source === "sample" ? "" : '<button type="button" data-del="' + esc(q.id) + '">Delete</button>') + "</td></tr>").join("");
   }
-  const COLS = ["id", "class", "subject", "chapter", "marks", "text", "optA", "optB", "optC", "optD", "answer"];
+  const COLS = ["id", "class", "subject", "chapter", "marks", "text", "optA", "optB", "optC", "optD", "answer", "solution"];
   const csvCell = (v) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
   function parseCsv(text) {
     const rows = []; let row = [], cell = "", q = false; text = text.replace(/^﻿/, "");
@@ -463,10 +599,15 @@
     if (cell || row.length) { row.push(cell); rows.push(row); }
     return rows.filter((r) => r.some((x) => x.trim()));
   }
+  function parseSteps(txt) {
+    return String(txt || "").split(/\n/).map((l) => l.split(" | ")).filter((p) => p[0] && p[0].trim())
+      .map((p) => ({ work: p[0].trim(), reason: (p[1] || "").trim(), marks: Number(p[2]) || 0 }));
+  }
   function addQuestion(f) {
     const opts = (f.opts || []).map((s) => (s || "").trim()); const isMcq = opts.length === 4 && opts.every(Boolean);
     state.custom.push({ id: "C" + Date.now().toString(36) + state.custom.length, cls: f.cls, subject: f.subject, chapter: f.chapter, marks: f.marks,
-      text: f.text.trim(), answer: f.answer.trim(), type: isMcq ? "mcq" : "written", opts: isMcq ? opts : [], source: "mine" });
+      text: f.text.trim(), answer: f.answer.trim(), type: isMcq ? "mcq" : "written", opts: isMcq ? opts : [], source: "mine",
+      steps: !isMcq && f.steps && f.steps.length ? f.steps : undefined });
     saveCustom();
   }
 
@@ -603,7 +744,7 @@
     $("hideSample").addEventListener("change", (e) => { state.hideSample = e.target.checked; renderBank(); });
     $("bankTable").addEventListener("click", (e) => { const b = e.target.closest("[data-del]"); if (!b) return; state.custom = state.custom.filter((q) => q.id !== b.dataset.del); saveCustom(); renderBank(); });
     $("exportCsv").addEventListener("click", () => {
-      const rows = bank().map((q) => [q.id, q.cls, q.subject, q.chapter, q.marks, q.text, q.opts[0], q.opts[1], q.opts[2], q.opts[3], q.answer]);
+      const rows = bank().map((q) => [q.id, q.cls, q.subject, q.chapter, q.marks, q.text, q.opts[0], q.opts[1], q.opts[2], q.opts[3], q.answer, (q.steps || []).map((t) => [t.work, t.reason, t.marks].join(" | ")).join("\n")]);
       saveFile("question-bank.csv", "text/csv", [COLS].concat(rows).map((r) => r.map(csvCell).join(",")).join("\r\n"));
     });
     $("importCsv").addEventListener("change", (e) => {
@@ -613,7 +754,7 @@
         rows.forEach((r) => {
           const o = {}; head.forEach((h, i) => (o[h] = (r[i] || "").trim()));
           if (!o.text || !o.answer || !Number(o.marks) || !Number(o.chapter)) return;
-          addQuestion({ cls: Number(o.class), subject: o.subject || "Maths", chapter: Number(o.chapter), marks: Number(o.marks), text: o.text, answer: o.answer, opts: [o.optA, o.optB, o.optC, o.optD] }); added++;
+          addQuestion({ cls: Number(o.class), subject: o.subject || "Maths", chapter: Number(o.chapter), marks: Number(o.marks), text: o.text, answer: o.answer, opts: [o.optA, o.optB, o.optC, o.optD], steps: parseSteps(o.solution) }); added++;
         });
         toast("Imported " + added + " of " + rows.length + " rows. Rows missing text, answer, marks or chapter were skipped."); e.target.value = ""; renderBank();
       });

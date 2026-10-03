@@ -99,3 +99,15 @@ th { background: var(--hover); font-size: 12px; color: var(--muted); }
   body.print-key #tab-paper, body:not(.print-key) #tab-key { display: none !important; }
   .tab[hidden] { display: block !important; }
 }
+
+/* step editor */
+.syms { display: flex; flex-wrap: wrap; gap: 4px; }
+.syms button { min-width: 36px; min-height: 36px; padding: 0 6px; }
+#ed-steps { display: flex; flex-direction: column; gap: 6px; }
+.stp { display: grid; grid-template-columns: 22px 1.6fr 1fr 64px auto; gap: 6px; align-items: center; }
+.stp .n { color: var(--muted); font-size: 12px; text-align: right; }
+.stp .mv { display: flex; gap: 2px; }
+.stp .mv button { min-width: 34px; padding: 0 6px; }
+.note.bad { color: var(--warn); font-weight: 600; }
+.thumb { max-width: 240px; max-height: 160px; border: 1px solid var(--line); border-radius: 6px; }
+@media (max-width: 900px) { .stp { grid-template-columns: 22px 1fr 64px; } .stp [data-k=reason] { grid-column: 2 / 4; } .stp .mv { grid-column: 2 / 4; } }

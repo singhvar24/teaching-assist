@@ -22,6 +22,7 @@ Covers the **Assess** step of the workflow in `CLAUDE.md`: build an exam or mid-
 | Instructions | Show or hide, heading, one per line, numbered or plain |
 | Layout | Paper size (A4, Letter, A5), margins, font, font size, line spacing, gap between questions, numbering style (1. / Q1. / (1) / Q.1), continuous or per-section numbering, marks at right / inline / hidden, MCQ options in two columns / one per line / one row, section heading style, blank answer lines per mark, section totals, page break per section, "End of paper", watermark, footer |
 | Questions | Edit text, options, answer, marks; shuffle MCQ options; reorder; add or remove |
+| Worked solutions | Per question: typed steps (working, optional reason, marks per step), or a photo of her handwritten solution, or both. Maths symbol buttons, "Tidy symbols" (x^2 → x², * → ×), reorder steps, spread marks evenly, and a check that step marks add up to the question marks |
 | Answer key | Title, list or table, MCQ letter only or letter with text, repeat question text, marks, chapter, section totals, school heading on or off, closing note, teacher name |
 | Saved settings | Everything above plus the pattern can be saved under a name, exported to a file and imported back |
 
@@ -29,10 +30,11 @@ Your work (settings, edited paper, added questions) is kept in the browser on th
 
 ## Data
 - `data.js`: chapter lists, exam patterns and the **sample** question bank (49 Class 7 Maths questions written for demonstration; not from R S Aggarwal; check before real use).
-- CSV columns: `id, class, subject, chapter, marks, text, optA, optB, optC, optD, answer`. All four options filled means an MCQ. These match the planned `QuestionBank` Sheet tab.
+- 19 of the sample written questions have worked solutions (`SAMPLE_SOLUTIONS`); the rest are split into steps automatically from their answer text.
+- CSV columns: `id, class, subject, chapter, marks, text, optA, optB, optC, optD, answer, solution`. `solution` holds one step per line as `working | reason | marks`. Photos are not included in CSV. All four options filled means an MCQ. These match the planned `QuestionBank` Sheet tab.
 
 ## Known limits (prototype)
 - Half Yearly pattern is real (80 marks, 38 questions). Unit/Mid-term and Custom patterns are **placeholders**.
 - Only Class 7 and Class 8 Maths chapters are listed; Class 8 is an assumption. No Science or Class 6 chapters yet.
-- English only (confirmed as the paper language). No internal choice, no .docx export, no AI suggestions, no diary link (chapters are ticked by hand), no diagrams.
+- English only (confirmed as the paper language). No internal choice, no .docx export, no AI suggestions, no diary link (chapters are ticked by hand), no diagrams drawn in the tool (a photo of a drawing can be attached to a solution).
 - Maths is typed as plain text (for example `x/3`, `½`, `△ABC`).

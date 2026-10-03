@@ -144,6 +144,15 @@
           <label>Layout<select data-s="key.layout"><option value="list">List</option><option value="table">Table</option></select></label>
           <label>MCQ answers<select data-s="key.mcq"><option value="full">Letter and option text</option><option value="letter">Letter only</option></select></label>
         </div>
+        <fieldset>
+          <legend>Written solutions</legend>
+          <label>Show<select data-s="key.solution"><option value="steps">Full step-by-step working</option><option value="final">Final answer only</option></select></label>
+          <label>Step labels<select data-s="key.stepLabel"><option value="Step 1">Step 1, Step 2 …</option><option value="1.">1. 2. 3. …</option><option value="none">No labels</option></select></label>
+          <label class="inline"><input type="checkbox" data-s="key.showReasons"> Show the reason beside each step</label>
+          <label class="inline"><input type="checkbox" data-s="key.showStepMarks"> Show marks beside each step</label>
+          <label class="inline"><input type="checkbox" data-s="key.finalBox"> Boxed final answer after the steps</label>
+          <p class="note">Write steps for a question with Edit on the paper, under “Step-by-step solution”.</p>
+        </fieldset>
         <label class="inline"><input type="checkbox" data-s="key.showHeader"> Show school heading on the key</label>
         <label class="inline"><input type="checkbox" data-s="key.showQ"> Repeat the question text</label>
         <label class="inline"><input type="checkbox" data-s="key.showMarks"> Show marks per question</label>

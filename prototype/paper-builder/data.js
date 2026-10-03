@@ -116,3 +116,35 @@ window.SAMPLE_BANK = [
   Q(7, 4, "A father is three times as old as his son. The sum of their ages is 56 years. Find their ages.", "x + 3x = 56, so x = 14; son 14 years, father 42 years"),
   Q(7, 4, "The perimeter of a rectangle is 52 cm. Its length is 6 cm more than its breadth. Find its length and breadth.", "2(b + b + 6) = 52, so b = 10; breadth 10 cm, length 16 cm")
 ].map((q, i) => (q.id = "S" + String(i + 1).padStart(3, "0"), q));
+
+// Worked solutions for the sample questions: [work, reason, marks]. Step marks add up to the question marks.
+// Questions without an entry here are split into steps automatically from their answer text.
+window.SAMPLE_SOLUTIONS = [
+  ["In △ABC and △PQR, AB = PQ", [["AB = PQ = 5 cm and BC = QR = 6 cm", "two sides equal", 1], ["∠B = ∠Q = 50°, the angle included between these sides", "included angles equal", 1], ["∴ △ABC ≅ △PQR", "SAS rule", 1]], "Yes, the triangles are congruent by the SAS rule."],
+  ["In △ABC and △DEF, ∠A", [["∠A = ∠D = 40° and ∠B = ∠E = 60°", "given", 1], ["AB = DE = 7 cm, the side between ∠A and ∠B", "included side equal", 1], ["∴ △ABC ≅ △DEF", "ASA rule", 1], ["∠C = 180° − 40° − 60° = 80°, so ∠F = ∠C = 80°", "angle sum; corresponding parts", 1]], "△ABC ≅ △DEF by ASA; ∠C = ∠F = 80°."],
+  ["Evaluate: (−8) × (−5)", [["(−8) × (−5) = 40", "negative × negative = positive", 1], ["(−20) ÷ 4 = −5", "negative ÷ positive = negative", 1], ["40 + (−5) = 35", "", 1]], "35"],
+  ["The temperature at 6 a.m.", [["Fall in 4 hours = 3 × 4 = 12°C", "", 1], ["Temperature = 5 − 12", "", 1], ["= −7°C", "", 1]], "−7°C"],
+  ["Evaluate: [(−48) ÷ 6]", [["(−48) ÷ 6 = −8", "", 1], ["(−8) × (−3) = 24", "", 1], ["24 + 15 = 39", "", 1], ["39 − (−9) = 39 + 9 = 48", "subtracting a negative = adding", 1]], "48"],
+  ["A shopkeeper gains", [["Gain on 12 pens = 7 × 12 = ₹84", "", 1], ["Loss on 15 pencils = 3 × 15 = ₹45", "", 1], ["Net = 84 − 45", "", 1], ["= ₹39 gain", "", 1]], "Net gain of ₹39."],
+  ["Find the LCM of 12, 18 and 24.", [["12 = 2² × 3, 18 = 2 × 3², 24 = 2³ × 3", "prime factorisation", 1], ["Highest powers: 2³ and 3²", "", 1], ["LCM = 8 × 9 = 72", "", 1]], "72"],
+  ["Find the HCF of 84 and 126", [["126 = 84 × 1 + 42", "divide the larger by the smaller", 1], ["84 = 42 × 2 + 0", "remainder is 0", 1], ["HCF = last divisor = 42", "", 1]], "42"],
+  ["Three bells ring", [["Bells ring together after the LCM of 12, 15 and 20 minutes", "", 1], ["12 = 2² × 3, 15 = 3 × 5, 20 = 2² × 5", "prime factorisation", 1], ["LCM = 2² × 3 × 5 = 60 minutes", "", 1], ["8:00 a.m. + 60 minutes = 9:00 a.m.", "", 1]], "They next ring together at 9:00 a.m."],
+  ["Find the greatest length of a tape", [["Greatest length = HCF of 90, 150 and 210", "", 1], ["90 = 2 × 3² × 5, 150 = 2 × 3 × 5², 210 = 2 × 3 × 5 × 7", "prime factorisation", 1], ["Common factors: 2 × 3 × 5", "", 1], ["HCF = 30", "", 1]], "30 cm"],
+  ["One metre of cloth costs", [["Cost of 3.5 m = 45.50 × 3.5", "", 1], ["4550 × 35 = 159250", "ignore the decimal points", 1], ["Three decimal places in all: 159.250 = ₹159.25", "", 1]], "₹159.25"],
+  ["Evaluate: 12.6 ÷ 0.07.", [["Multiply both numbers by 100", "to remove the decimal in the divisor", 1], ["12.6 ÷ 0.07 = 1260 ÷ 7", "", 1], ["= 180", "", 1]], "180"],
+  ["A car runs 14.4 km", [["Distance per litre = 14.4 ÷ 1.2", "", 1], ["= 144 ÷ 12 = 12 km", "", 1], ["Distance on 5.5 litres = 12 × 5.5", "", 1], ["= 66 km", "", 1]], "66 km"],
+  ["A rope 18.75 m long", [["Number of pieces = 18.75 ÷ 1.25", "", 1], ["= 1875 ÷ 125", "multiply both by 100", 1], ["125 × 15 = 1875", "", 1], ["So there are 15 pieces", "", 1]], "15 pieces"],
+  ["Construct a triangle with sides", [["Draw BC = 6 cm", "", 1], ["With B as centre, radius 4 cm, draw an arc; with C as centre, radius 5 cm, draw another arc meeting it at A", "", 1], ["Join AB and AC. △ABC is the required triangle", "", 1]], "△ABC with sides 4 cm, 5 cm and 6 cm."],
+  ["Solve: 3(x − 2)", [["3x − 6 = 2x + 5", "expand the bracket", 1], ["3x − 2x = 5 + 6", "transpose terms", 1], ["x = 11", "", 1]], "x = 11"],
+  ["The sum of two consecutive numbers", [["Let the numbers be x and x + 1", "", 1], ["x + (x + 1) = 37, so 2x = 36", "", 1], ["x = 18; the numbers are 18 and 19", "", 1]], "18 and 19"],
+  ["A father is three times", [["Let the son's age be x years; father's age = 3x", "", 1], ["x + 3x = 56", "", 1], ["4x = 56, so x = 14", "", 1], ["Son = 14 years, father = 3 × 14 = 42 years", "", 1]], "Son 14 years, father 42 years"],
+  ["The perimeter of a rectangle", [["Let the breadth be b cm; length = (b + 6) cm", "", 1], ["2(b + b + 6) = 52", "perimeter = 2(l + b)", 1], ["2b + 6 = 26, so b = 10", "", 1], ["Breadth = 10 cm, length = 10 + 6 = 16 cm", "", 1]], "Breadth 10 cm, length 16 cm"]
+];
+window.SAMPLE_SOLUTIONS.forEach(([start, steps, fin]) => {
+  const q = window.SAMPLE_BANK.find((x) => x.text.startsWith(start));
+  if (!q) throw new Error("No sample question starts with: " + start);
+  const sum = steps.reduce((t, s) => t + s[2], 0);
+  if (sum !== q.marks) throw new Error("Step marks " + sum + " != " + q.marks + " for: " + start);
+  q.steps = steps.map(([work, reason, marks]) => ({ work, reason, marks }));
+  q.answer = fin;
+});
