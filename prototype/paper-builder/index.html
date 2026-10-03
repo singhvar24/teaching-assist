@@ -3,64 +3,191 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Question Paper Builder (prototype)</title>
+<title>Question Paper Builder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;600&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
   <aside class="panel no-print">
-    <h1>Question paper builder</h1>
-    <p class="muted">Prototype · sample questions only</p>
+    <header>
+      <h1>Question paper builder</h1>
+      <p class="muted">Prototype · sample questions only · every change saves on this device</p>
+    </header>
 
-    <div class="row3">
-      <label>Class
-        <select id="cls"><option>6</option><option selected>7</option><option>8</option></select>
-      </label>
-      <label>Subject
-        <select id="subject"><option>Maths</option><option>Science</option></select>
-      </label>
-      <label>Exam
-        <select id="exam"></select>
-      </label>
-    </div>
-    <p id="patternNote" class="note"></p>
+    <details open>
+      <summary>1 · Exam and chapters</summary>
+      <div class="grp">
+        <div class="row3">
+          <label>Class
+            <select id="cls"><option>6</option><option selected>7</option><option>8</option></select>
+          </label>
+          <label>Subject
+            <select id="subject"><option>Maths</option><option>Science</option></select>
+          </label>
+          <label>Pattern
+            <select id="exam"></select>
+          </label>
+        </div>
+        <p id="patternNote" class="note"></p>
+        <fieldset>
+          <legend>Chapters taught (tick to include)</legend>
+          <div id="chapters" class="chaps"></div>
+          <p id="chapterNote" class="note"></p>
+        </fieldset>
+      </div>
+    </details>
 
-    <fieldset>
-      <legend>Chapters taught (tick to include)</legend>
-      <div id="chapters"></div>
-      <p id="chapterNote" class="note"></p>
-    </fieldset>
-
-    <fieldset>
-      <legend>Pattern (edit number of questions)</legend>
-      <table id="pattern"></table>
-    </fieldset>
+    <details open>
+      <summary>2 · Sections and marks</summary>
+      <div class="grp">
+        <div id="pattern" class="secs"></div>
+        <button type="button" id="addSection">+ Add section</button>
+        <p id="patternTotal" class="note"></p>
+        <label class="inline"><input type="checkbox" data-s="shuffleOptions"> Shuffle MCQ options when filling</label>
+      </div>
+    </details>
 
     <div class="stack">
       <button id="generate" class="primary">Generate paper + answer key</button>
+      <button id="fillGaps" type="button">Fill empty slots only (keeps your edits)</button>
       <p id="shortfall" class="warn" hidden></p>
     </div>
 
-    <fieldset>
-      <legend>Paper header</legend>
-      <label>School name<input id="school" value="[SCHOOL NAME]"></label>
-      <label>Session<input id="session" value="2026-27"></label>
-      <label>General instructions
-        <textarea id="instructions" rows="4">[General instructions from the school template]</textarea>
-      </label>
-    </fieldset>
+    <details>
+      <summary>3 · Paper heading</summary>
+      <div class="grp">
+        <label>School name<input data-s="school"></label>
+        <label>Address / line under the name<input data-s="address" placeholder="e.g. Aligarh, Uttar Pradesh"></label>
+        <div class="row2">
+          <label>Logo position
+            <select data-s="logoPos"><option value="left">Left of name</option><option value="center">Centre, above name</option><option value="right">Right of name</option></select>
+          </label>
+          <label>Logo height (mm)<input type="number" data-s="logoH" min="8" max="40"></label>
+        </div>
+        <div class="row2">
+          <label class="btn">Upload logo<input type="file" id="logoFile" accept="image/*" hidden></label>
+          <button type="button" id="logoClear">Remove logo</button>
+        </div>
+        <label>Session<input data-s="session"></label>
+        <label>Exam title (blank = pattern name + “Examination”)<input data-s="examTitle" placeholder="e.g. Half Yearly Examination 2026-27"></label>
+        <div class="row2">
+          <label>Class label (blank = auto)<input data-s="classLabel" placeholder="Class VII-B"></label>
+          <label>Subject label (blank = auto)<input data-s="subjectLabel" placeholder="Mathematics"></label>
+        </div>
+        <div class="row3">
+          <label>Time (blank = pattern)<input data-s="time" placeholder="3 hours"></label>
+          <label>Max marks (blank = sum)<input data-s="maxMarks" placeholder="auto"></label>
+          <label>Date<input data-s="date" placeholder="e.g. 12 Oct 2026"></label>
+        </div>
+        <label>Teacher name (shown in key footer line)<input data-s="teacher"></label>
+        <fieldset>
+          <legend>Student details line</legend>
+          <label class="inline"><input type="checkbox" data-s="fields.name"> Name</label>
+          <label class="inline"><input type="checkbox" data-s="fields.roll"> Roll no.</label>
+          <label class="inline"><input type="checkbox" data-s="fields.section"> Class / Section</label>
+          <label class="inline"><input type="checkbox" data-s="fields.date"> Date</label>
+        </fieldset>
+      </div>
+    </details>
+
+    <details>
+      <summary>4 · Instructions</summary>
+      <div class="grp">
+        <label class="inline"><input type="checkbox" data-s="showInstructions"> Show instructions on the paper</label>
+        <label>Heading<input data-s="instrTitle"></label>
+        <label>One instruction per line
+          <textarea data-s="instructions" rows="6"></textarea>
+        </label>
+        <label class="inline"><input type="checkbox" data-s="instrNumbered"> Number the instructions</label>
+      </div>
+    </details>
+
+    <details>
+      <summary>5 · Paper layout</summary>
+      <div class="grp">
+        <div class="row3">
+          <label>Paper size<select data-s="paper"><option>A4</option><option>Letter</option><option>A5</option></select></label>
+          <label>Margin (mm)<input type="number" data-s="margin" min="5" max="30"></label>
+          <label>Font<select data-s="font"><option value="serif">Plex Serif</option><option value="times">Times New Roman</option><option value="sans">Plex Sans</option><option value="arial">Arial</option><option value="georgia">Georgia</option></select></label>
+        </div>
+        <div class="row3">
+          <label>Font size (pt)<input type="number" data-s="fontSize" min="8" max="18" step="0.5"></label>
+          <label>Line spacing<input type="number" data-s="lineHeight" min="1" max="2.2" step="0.05"></label>
+          <label>Gap between questions<select data-s="gap"><option value="compact">Compact</option><option value="normal">Normal</option><option value="roomy">Roomy</option></select></label>
+        </div>
+        <div class="row2">
+          <label>Question numbers<select data-s="numbering"><option value="1.">1.</option><option value="Q1.">Q1.</option><option value="(1)">(1)</option><option value="Q.1">Q.1</option></select></label>
+          <label>Numbering<select data-s="continuous"><option value="yes">Continuous across sections</option><option value="no">Restart in each section</option></select></label>
+        </div>
+        <div class="row2">
+          <label>Marks shown<select data-s="marksPos"><option value="right">At right edge</option><option value="inline">After the question</option><option value="none">Hidden</option></select></label>
+          <label>MCQ options<select data-s="optLayout"><option value="2col">Two columns</option><option value="1col">One per line</option><option value="inline">In one row</option></select></label>
+        </div>
+        <div class="row2">
+          <label>Section heading style<select data-s="secStyle"><option value="line">Underlined</option><option value="box">Boxed</option><option value="plain">Plain bold</option></select></label>
+          <label>Blank answer lines per mark<input type="number" data-s="answerLines" min="0" max="4"></label>
+        </div>
+        <label class="inline"><input type="checkbox" data-s="secTotals"> Show “count × marks = total” in section headings</label>
+        <label class="inline"><input type="checkbox" data-s="secBreak"> Start each section on a new page</label>
+        <label class="inline"><input type="checkbox" data-s="showEnd"> Show “End of paper”</label>
+        <label>Watermark text<input data-s="watermark" placeholder="e.g. DRAFT"></label>
+        <label>Footer text<input data-s="footer" placeholder="e.g. Class VII Maths · Half Yearly"></label>
+      </div>
+    </details>
+
+    <details>
+      <summary>6 · Answer key</summary>
+      <div class="grp">
+        <label>Key title<input data-s="key.title"></label>
+        <div class="row2">
+          <label>Layout<select data-s="key.layout"><option value="list">List</option><option value="table">Table</option></select></label>
+          <label>MCQ answers<select data-s="key.mcq"><option value="full">Letter and option text</option><option value="letter">Letter only</option></select></label>
+        </div>
+        <label class="inline"><input type="checkbox" data-s="key.showHeader"> Show school heading on the key</label>
+        <label class="inline"><input type="checkbox" data-s="key.showQ"> Repeat the question text</label>
+        <label class="inline"><input type="checkbox" data-s="key.showMarks"> Show marks per question</label>
+        <label class="inline"><input type="checkbox" data-s="key.showChapter"> Show chapter name</label>
+        <label class="inline"><input type="checkbox" data-s="key.showSecTotals"> Show section totals</label>
+        <label class="inline"><input type="checkbox" data-s="key.showTeacher"> Show teacher name at the end</label>
+        <label>Note at the end (marking instructions)
+          <textarea data-s="key.note" rows="3" placeholder="e.g. Award step marks for correct method."></textarea>
+        </label>
+      </div>
+    </details>
+
+    <details>
+      <summary>7 · Saved settings</summary>
+      <div class="grp">
+        <p class="note">Save the whole look and pattern under a name, for example “Half Yearly Class 7”.</p>
+        <div class="row2">
+          <label>Name<input id="presetName" placeholder="Half Yearly Class 7"></label>
+          <button type="button" id="presetSave" class="alignbtm">Save</button>
+        </div>
+        <div class="row2">
+          <label>Saved<select id="presetList"></select></label>
+          <div class="alignbtm btns"><button type="button" id="presetLoad">Load</button><button type="button" id="presetDelete">Delete</button></div>
+        </div>
+        <div class="row2">
+          <button type="button" id="settingsExport">Export settings file</button>
+          <label class="btn">Import settings file<input type="file" id="settingsImport" accept=".json" hidden></label>
+        </div>
+        <button type="button" id="resetAll">Reset layout to defaults</button>
+      </div>
+    </details>
   </aside>
 
   <main class="main">
-    <nav class="tabs no-print" role="tablist">
+    <nav class="tabs no-print" role="tablist" aria-label="Views">
       <button role="tab" data-tab="paper" class="active">Question paper</button>
       <button role="tab" data-tab="key">Answer key</button>
       <button role="tab" data-tab="bank">Question bank</button>
       <span class="spacer"></span>
-      <button id="print">Print (A4)</button>
+      <button id="print">Print</button>
+      <button id="saveHtml">Save as file (.html)</button>
     </nav>
-
-    <p id="msg" class="warn no-print" role="status" hidden></p>
+    <p id="status" class="status no-print" role="status" aria-live="polite" hidden></p>
+    <div id="editor" class="no-print"></div>
 
     <section id="tab-paper" class="tab"><div id="paper" class="sheet"></div></section>
     <section id="tab-key" class="tab" hidden><div id="key" class="sheet"></div></section>
@@ -84,7 +211,7 @@
           <label>Option (a)<input name="optA"></label><label>Option (b)<input name="optB"></label>
           <label>Option (c)<input name="optC"></label><label>Option (d)<input name="optD"></label>
         </div>
-        <p class="note">Fill all four options to make it an MCQ; leave empty for a written question.</p>
+        <p class="note">Fill all four options to make it an MCQ; leave them empty for a written question.</p>
         <label>Answer<input name="answer" required></label>
         <button class="primary" type="submit">Add to bank</button>
       </form>

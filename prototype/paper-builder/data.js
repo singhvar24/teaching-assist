@@ -22,26 +22,34 @@ window.CHAPTERS = {
   }
 };
 
-// type: mcq = objective with 4 options; marks per question in each section
+// kind: mcq = objective with 4 options, short/long = written. heading and instruction are optional per-section text.
 window.PATTERNS = [
   {
     id: "half-yearly", name: "Half Yearly", time: "3 hours", confirmed: true,
     note: "From the Half Yearly Maths paper received (80 marks, 38 questions). Whether it applies to Classes 6-8 and Science is still to be confirmed.",
     sections: [
-      { name: "A", kind: "mcq", count: 15, marks: 1 },
-      { name: "B", kind: "short", count: 10, marks: 2 },
-      { name: "C", kind: "short", count: 7, marks: 3 },
-      { name: "D", kind: "long", count: 6, marks: 4 }
+      { name: "A", kind: "mcq", count: 15, marks: 1, heading: "", instruction: "" },
+      { name: "B", kind: "short", count: 10, marks: 2, heading: "", instruction: "" },
+      { name: "C", kind: "short", count: 7, marks: 3, heading: "", instruction: "" },
+      { name: "D", kind: "long", count: 6, marks: 4, heading: "", instruction: "" }
     ]
   },
   {
     id: "unit-test", name: "Unit / Mid-term Test", time: "1 hour", confirmed: false,
     note: "PLACEHOLDER pattern (20 marks). Replace with her real unit test pattern.",
     sections: [
-      { name: "A", kind: "mcq", count: 4, marks: 1 },
-      { name: "B", kind: "short", count: 3, marks: 2 },
-      { name: "C", kind: "short", count: 2, marks: 3 },
-      { name: "D", kind: "long", count: 1, marks: 4 }
+      { name: "A", kind: "mcq", count: 4, marks: 1, heading: "", instruction: "" },
+      { name: "B", kind: "short", count: 3, marks: 2, heading: "", instruction: "" },
+      { name: "C", kind: "short", count: 2, marks: 3, heading: "", instruction: "" },
+      { name: "D", kind: "long", count: 1, marks: 4, heading: "", instruction: "" }
+    ]
+  },
+  {
+    id: "custom", name: "Custom", time: "", confirmed: false,
+    note: "Your own pattern. Add, remove and rename sections below.",
+    sections: [
+      { name: "A", kind: "mcq", count: 5, marks: 1, heading: "", instruction: "" },
+      { name: "B", kind: "short", count: 5, marks: 2, heading: "", instruction: "" }
     ]
   }
 ];

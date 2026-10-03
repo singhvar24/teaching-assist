@@ -82,7 +82,7 @@ https://claude.ai/artifact/KfaH1FsYKdfGN2k8jwDeuo (7 screens: Today, Voice log, 
 - `prototype/paper-builder/`: first working prototype, covering only the **Assess** step (exam and mid-term question papers). See its README.
 
 ## Prototype status
-- Paper builder runs in any browser with no install (open `prototype/paper-builder/index.html`).
+- Paper builder runs in any browser with no install (open `prototype/paper-builder/index.html`). A private published copy is at https://claude.ai/artifact/SioMxmDzrU6CRGVwEYdQgh (owner access only until shared). Heading, instructions, layout, sections and answer key are all customisable; see the prototype README.
 - Question bank in the prototype is **sample data written for demonstration**, not taken from R S Aggarwal. Replace it with her own questions (CSV import, same columns as the planned `QuestionBank` Sheet tab).
 - Exam patterns: only the Half Yearly Maths 80-mark pattern comes from a real school paper. Everything else is a placeholder flagged in the UI until open questions 3 and 4 are answered.
 - Question papers are English only, so no Hindi question text is planned.
