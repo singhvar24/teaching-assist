@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lesson plan in school format</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;family=IBM+Plex+Serif:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans','Noto Sans Devanagari',sans-serif;background:#F7F6F2;color:#1F1E1C}
+a{color:#1F5F8B}a:hover{color:#174A6C}
+</style>
+</helmet>
+<div style="width: 1280px; height: 820px; box-sizing: border-box; display: flex; background: #F7F6F2">
+<aside style="width: 220px; background: #FFFFFF; border-right: 1px solid #D6D3CC; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 18px; font-weight: 600; padding: 0 8px 16px">Teaching Diary</div>
+<a href="Main.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Today</a>
+<a href="LessonPlan.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #174A6C; background: #E8EFF5; text-decoration: none">Lesson plans</a>
+<a href="Diary.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Diary</a>
+<a href="Paper.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Question papers</a>
+<a href="Diary.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Templates</a>
+</aside>
+<main style="flex-grow: 1; padding: 24px 28px; display: flex; gap: 20px">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Lesson plan · Class 8 · Maths</h1>
+<div style="font-size: 13px; color: #5E5B55">R S Aggarwal Book 2 · Ch 7 Area · school format, landscape</div>
+</div>
+<div style="font-size: 12px; color: #5E5B55">Tap any cell to type or speak</div>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #1F1E1C; display: flex; flex-direction: column; font-family: 'IBM Plex Serif', 'Noto Sans Devanagari', serif">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px; border-bottom: 1px solid #1F1E1C">
+<div style="font-size: 15px; font-weight: 600">[SCHOOL NAME, ADDRESS AND LOGO FROM TEMPLATE]</div>
+<div style="font-size: 12px">2026-27</div>
+<div style="font-size: 18px; font-weight: 600; letter-spacing: 1px">LESSON PLAN</div>
+<div style="width: 100%; display: flex; justify-content: space-between; font-size: 12px; color: #9A3412; font-weight: 600"><span>CHAPTER 7 · AREA (TRAPEZIUM AND POLYGON)</span><span>CLASS 8</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 190px 1fr 200px 150px; font-size: 12px; font-weight: 600; background: #F0EEE9; border-bottom: 1px solid #1F1E1C">
+<div style="padding: 8px; border-right: 1px solid #1F1E1C">Key Competencies &amp; Learning Outcomes</div>
+<div style="padding: 8px; border-right: 1px solid #1F1E1C">Teacher Activity</div>
+<div style="padding: 8px; border-right: 1px solid #1F1E1C">Student Activity</div>
+<div style="padding: 8px">Teaching Aids / Resources</div>
+</div>
+<div style="display: grid; grid-template-columns: 190px 1fr; font-size: 12px">
+<div style="padding: 8px; border-right: 1px solid #1F1E1C; line-height: 1.5">Students will be able to: derive the formula for the area of a trapezium; calculate the area of polygons using known formulas; verify the area of a trapezium and other polygons.</div>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: 1fr 200px 150px; border-bottom: 1px solid #1F1E1C">
+<div style="padding: 8px; border-right: 1px solid #1F1E1C; display: flex; flex-direction: column; gap: 3px"><span style="font-weight: 600">{{r.stage}}</span><span style="line-height: 1.45">{{r.teacher}}</span></div>
+<div style="padding: 8px; border-right: 1px solid #1F1E1C; line-height: 1.45">{{r.student}}</div>
+<div style="padding: 8px; line-height: 1.45">{{r.aids}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+<div style="width: 250px; display: flex; flex-direction: column; gap: 12px">
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; font-weight: 600">Start from</div>
+<button type="button" style="min-height: 44px; border: 1px solid #1F5F8B; background: #E8EFF5; color: #174A6C; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: left; padding: 0 12px">My 2023-24 plan: Ch 18 Area of trapezium</button>
+<button type="button" style="min-height: 44px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 13px; text-align: left; padding: 0 12px">Blank plan</button>
+<button type="button" style="min-height: 44px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 13px; text-align: left; padding: 0 12px">Draft with AI (optional)</button>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; font-weight: 600">Diagrams and formulas</div>
+<button type="button" style="min-height: 44px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 13px; text-align: left; padding: 0 12px">Add photo of a drawing</button>
+<button type="button" style="min-height: 44px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 13px; text-align: left; padding: 0 12px">Leave blank space to draw by hand</button>
+<div style="font-size: 12px; color: #5E5B55">Formulas typed as text, e.g. Area = ½ × (a + b) × h</div>
+</div>
+<button type="button" style="min-height: 48px; border: 0; background: #1F5F8B; color: #FFFFFF; border-radius: 10px; font-size: 15px; font-weight: 600">Print (A4 landscape)</button>
+<div style="font-size: 12px; color: #5E5B55">Saved plans link to the diary: each stage becomes a diary topic.</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+rows: [
+{ stage: 'Pre-Classroom Activity', teacher: 'Share a video on how to find the area of a trapezium in the class WhatsApp group. Questions based on the video.', student: 'Watch the video and answer the questions based on it.', aids: 'Video, textbook' },
+{ stage: 'Introductory Activity', teacher: 'Activity to estimate the area of a trapezium and other polygons using a square grid / graph sheet. [diagram]', student: 'Estimate areas using graph paper; do an activity to derive the area formula.', aids: 'Graph paper, scissors, glue, coloured sheet' },
+{ stage: 'Class Activity / Creativity', teacher: 'Derive the formula for the area of a trapezium by combining formulas for triangles and rectangles using the distributive property. Area = ½ × (sum of parallel sides) × height. [diagram]', student: 'Follow step 1 and step 2 of the cut-and-join activity.', aids: 'Chalk, duster, coloured pens' },
+{ stage: 'Follow up Activity', teacher: 'Give a worksheet to calculate the area of different polygons.', student: 'Solve the worksheet and find the area of polygons.', aids: 'Worksheet' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

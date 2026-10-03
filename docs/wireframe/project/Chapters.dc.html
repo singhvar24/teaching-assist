@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chapter progress</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans','Noto Sans Devanagari',sans-serif;background:#F7F6F2;color:#1F1E1C}
+a{color:#1F5F8B}a:hover{color:#174A6C}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F6F2">
+<div style="padding: 24px 20px 12px; display: flex; flex-direction: column; gap: 10px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Chapters</h1>
+<div style="display: flex; gap: 8px">
+<label style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #5E5B55">Class
+<select style="min-height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font-size: 15px; padding: 0 10px"><option>7</option></select>
+</label>
+<label style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #5E5B55">Subject
+<select style="min-height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font-size: 15px; padding: 0 10px"><option>Maths · R S Aggarwal Book 2</option></select>
+</label>
+</div>
+</div>
+<div style="flex-grow: 1; padding: 0 20px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{chapters}}" as="c" hint-placeholder-count="7">
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 10px; padding: 10px 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 8px">
+<div style="font-size: 15px; font-weight: 500">{{c.name}}</div>
+<div style="font-size: 12px; color: {{c.statusColor}}; font-weight: 600">{{c.status}}</div>
+</div>
+<div style="height: 6px; background: #ECEAE4; border-radius: 999px; display: flex">
+<div style="width: {{c.pct}}; background: #1F5F8B; border-radius: 999px"></div>
+</div>
+<div style="font-size: 12px; color: #5E5B55">{{c.periods}}</div>
+</div>
+</sc-for>
+<button type="button" style="min-height: 48px; border: 1px solid #1F5F8B; background: #FFFFFF; color: #174A6C; border-radius: 10px; font-size: 15px; font-weight: 600">Plan next chapter</button>
+<div style="font-size: 12px; color: #5E5B55">Draft with AI is optional; she edits every plan.</div>
+</div>
+<nav style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #D6D3CC; background: #FFFFFF">
+<a href="Main.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #5E5B55; text-decoration: none">Today</a>
+<a href="Chapters.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #1F5F8B; text-decoration: none">Chapters</a>
+<a href="Diary.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #5E5B55; text-decoration: none">Diary</a>
+<a href="Paper.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #5E5B55; text-decoration: none">Papers</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const done = '#2F6B3A', now = '#174A6C', todo = '#5E5B55';
+return {
+chapters: [
+{ name: '1 · Congruence (Geometric Twins)', status: 'In progress', statusColor: now, pct: '40%', periods: '[ ] of [ ] periods · next: [topic]' },
+{ name: '2 · Operations on Integers', status: 'Not started', statusColor: todo, pct: '0%', periods: 'Plan ready' },
+{ name: '3 · HCF and LCM', status: 'Not started', statusColor: todo, pct: '0%', periods: 'No plan yet' },
+{ name: '4 · Multiplication and Division of Decimals', status: 'Not started', statusColor: todo, pct: '0%', periods: 'No plan yet' },
+{ name: '5 · Connecting the Dots', status: 'Not started', statusColor: todo, pct: '0%', periods: 'No plan yet' },
+{ name: '6 · Constructions and Tilings', status: 'Not started', statusColor: todo, pct: '0%', periods: 'No plan yet' },
+{ name: '7 · Finding the Unknown', status: 'Not started', statusColor: todo, pct: '0%', periods: 'No plan yet' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Chapters.dc.html": {"h": 844, "title": "4 · Chapter progress", "w": 390, "x": 1410, "y": 0},
+    "Confirm.dc.html": {"h": 844, "title": "3 · Check and save", "w": 390, "x": 940, "y": 0},
+    "Diary.dc.html": {"h": 820, "title": "5 · Diary week view and export (laptop)", "w": 1280, "x": 0, "y": 1264},
+    "Log.dc.html": {"h": 844, "title": "2 · Log a period by voice", "w": 390, "x": 470, "y": 0},
+    "Main.dc.html": {"h": 844, "title": "1 · Today (phone)", "w": 390, "x": 0, "y": 0},
+    "Paper.dc.html": {"h": 820, "title": "6 · Question paper builder (laptop)", "w": 1280, "x": 1360, "y": 1264},
+    "LessonPlan.dc.html": {"h": 820, "title": "7 · Lesson plan in school format (laptop)", "w": 1280, "x": 2720, "y": 1264}
+  },
+  "createdOnFiles": {"at": "2026-09-26T02:40:00Z", "v": 1},
+  "designSystems": [],
+  "launch": {"view": "canvas"},
+  "notes": {
+    "t1": {"kind": "title1", "maxW": 1800, "text": "Phone: log each period in under a minute", "w": 240, "x": 0, "y": -300},
+    "t2": {"kind": "title1", "maxW": 4000, "text": "Laptop: diary export, question papers and lesson plans", "w": 240, "x": 0, "y": 964}
+  },
+  "order": ["Main.dc.html", "Log.dc.html", "Confirm.dc.html", "Chapters.dc.html", "Diary.dc.html", "Paper.dc.html", "LessonPlan.dc.html"],
+  "pages": [],
+  "title": "Teacher Diary Wireframe"
+}

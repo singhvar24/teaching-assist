@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Today</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans','Noto Sans Devanagari',sans-serif;background:#F7F6F2;color:#1F1E1C}
+a{color:#1F5F8B}a:hover{color:#174A6C}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F6F2">
+<div style="padding: 24px 20px 12px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 13px; color: #5E5B55">Saturday, 26 September</div>
+<h1 style="margin: 0; font-size: 26px; font-weight: 600">Today's classes</h1>
+<div style="font-size: 14px; color: #5E5B55">आज की कक्षाएँ · 1 of 4 logged</div>
+</div>
+<div style="margin: 4px 20px 12px; padding: 12px 14px; background: #E8EFF5; border: 1px solid #C5D5E3; border-radius: 10px; display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 13px; font-weight: 600; color: #174A6C">Unit Test 1 in 12 days</div>
+<div style="font-size: 13px; color: #1F1E1C">6A Maths: 4 of 5 test chapters taught</div>
+</div>
+<div style="flex-grow: 1; padding: 0 20px; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{periods}}" as="p" hint-placeholder-count="4">
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: center">
+<div style="width: 52px; display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 12px; color: #5E5B55">{{p.period}}</div>
+<div style="font-size: 14px; font-weight: 600">{{p.time}}</div>
+</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px">
+<div style="font-size: 16px; font-weight: 600">{{p.cls}} · {{p.subject}}</div>
+<div style="font-size: 13px; color: #5E5B55">{{p.chapter}}</div>
+</div>
+<sc-if value="{{p.done}}" hint-placeholder-val="{{false}}">
+<div style="font-size: 13px; font-weight: 500; color: #2F6B3A; padding: 6px 10px; border: 1px solid #B9D3BE; border-radius: 999px; background: #EEF5EF">Logged</div>
+</sc-if>
+<sc-if value="{{p.todo}}" hint-placeholder-val="{{true}}">
+<a href="Log.dc.html" style="display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; background: #1F5F8B; color: #FFFFFF; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg>
+Log</a>
+</sc-if>
+</div>
+</sc-for>
+<div style="font-size: 13px; color: #5E5B55; padding: 4px 2px">Periods come from her saved timetable. Chapter and topic come from the lesson plan.</div>
+</div>
+<nav style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #D6D3CC; background: #FFFFFF">
+<a href="Main.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #1F5F8B; text-decoration: none">Today</a>
+<a href="Chapters.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #5E5B55; text-decoration: none">Chapters</a>
+<a href="Diary.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #5E5B55; text-decoration: none">Diary</a>
+<a href="Paper.dc.html" style="min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #5E5B55; text-decoration: none">Papers</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+periods: [
+{ period: 'P1', time: '8:00', cls: '6A', subject: 'Maths', chapter: 'Ch [ ] · [chapter name]', done: true, todo: false },
+{ period: 'P3', time: '9:30', cls: '7B', subject: 'Science', chapter: 'Ch 4 · [chapter name]', done: false, todo: true },
+{ period: 'P5', time: '11:10', cls: '8A', subject: 'Maths', chapter: 'Ch 3 · [chapter name]', done: false, todo: true },
+{ period: 'P6', time: '12:00', cls: '6B', subject: 'Science', chapter: 'Ch 4 · [chapter name]', done: false, todo: true }
+]
+};
+}
+}
+</script>
+</body>
+</html>

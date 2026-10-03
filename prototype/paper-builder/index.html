@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Question Paper Builder (prototype)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="panel no-print">
+    <h1>Question paper builder</h1>
+    <p class="muted">Prototype · sample questions only</p>
+
+    <div class="row3">
+      <label>Class
+        <select id="cls"><option>6</option><option selected>7</option><option>8</option></select>
+      </label>
+      <label>Subject
+        <select id="subject"><option>Maths</option><option>Science</option></select>
+      </label>
+      <label>Exam
+        <select id="exam"></select>
+      </label>
+    </div>
+    <p id="patternNote" class="note"></p>
+
+    <fieldset>
+      <legend>Chapters taught (tick to include)</legend>
+      <div id="chapters"></div>
+      <p id="chapterNote" class="note"></p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Pattern (edit number of questions)</legend>
+      <table id="pattern"></table>
+    </fieldset>
+
+    <div class="stack">
+      <button id="generate" class="primary">Generate paper + answer key</button>
+      <p id="shortfall" class="warn" hidden></p>
+    </div>
+
+    <fieldset>
+      <legend>Paper header</legend>
+      <label>School name<input id="school" value="[SCHOOL NAME]"></label>
+      <label>Session<input id="session" value="2026-27"></label>
+      <label>General instructions
+        <textarea id="instructions" rows="4">[General instructions from the school template]</textarea>
+      </label>
+    </fieldset>
+  </aside>
+
+  <main class="main">
+    <nav class="tabs no-print" role="tablist">
+      <button role="tab" data-tab="paper" class="active">Question paper</button>
+      <button role="tab" data-tab="key">Answer key</button>
+      <button role="tab" data-tab="bank">Question bank</button>
+      <span class="spacer"></span>
+      <button id="print">Print (A4)</button>
+    </nav>
+
+    <section id="tab-paper" class="tab"><div id="paper" class="sheet"></div></section>
+    <section id="tab-key" class="tab" hidden><div id="key" class="sheet"></div></section>
+
+    <section id="tab-bank" class="tab no-print" hidden>
+      <div class="bank-tools">
+        <label class="inline"><input type="checkbox" id="hideSample"> Hide sample questions</label>
+        <button id="exportCsv">Export CSV</button>
+        <label class="btn">Import CSV<input type="file" id="importCsv" accept=".csv" hidden></label>
+      </div>
+      <form id="addForm" class="addform">
+        <h2>Add a question</h2>
+        <div class="row4">
+          <label>Class<select name="cls"><option>6</option><option selected>7</option><option>8</option></select></label>
+          <label>Subject<select name="subject"><option>Maths</option><option>Science</option></select></label>
+          <label>Chapter no.<input name="chapter" type="number" min="1" required></label>
+          <label>Marks<input name="marks" type="number" min="1" required></label>
+        </div>
+        <label>Question text<textarea name="text" rows="2" required></textarea></label>
+        <div class="row4">
+          <label>Option (a)<input name="optA"></label><label>Option (b)<input name="optB"></label>
+          <label>Option (c)<input name="optC"></label><label>Option (d)<input name="optD"></label>
+        </div>
+        <p class="note">Fill all four options to make it an MCQ; leave empty for a written question.</p>
+        <label>Answer<input name="answer" required></label>
+        <button class="primary" type="submit">Add to bank</button>
+      </form>
+      <p id="bankCount" class="muted"></p>
+      <div class="tablewrap"><table id="bankTable"></table></div>
+    </section>
+  </main>
+</div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

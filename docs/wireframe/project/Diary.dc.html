@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Diary week view</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans','Noto Sans Devanagari',sans-serif;background:#F7F6F2;color:#1F1E1C}
+a{color:#1F5F8B}a:hover{color:#174A6C}
+</style>
+</helmet>
+<div style="width: 1280px; height: 820px; box-sizing: border-box; display: flex; background: #F7F6F2">
+<aside style="width: 220px; background: #FFFFFF; border-right: 1px solid #D6D3CC; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 18px; font-weight: 600; padding: 0 8px 16px">Teaching Diary</div>
+<a href="Main.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Today</a>
+<a href="Chapters.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Chapters and plans</a>
+<a href="Diary.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #174A6C; background: #E8EFF5; text-decoration: none">Diary</a>
+<a href="Paper.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Question papers</a>
+<a href="Diary.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Templates</a>
+</aside>
+<main style="flex-grow: 1; padding: 28px 32px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 600">Diary · 21–26 September</h1>
+<div style="font-size: 14px; color: #5E5B55">22 of 24 periods logged · built from phone entries</div>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 14px">Template: School diary (.docx)</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 0; background: #1F5F8B; color: #FFFFFF; border-radius: 10px; font-size: 14px; font-weight: 600">Export week as PDF</button>
+</div>
+</div>
+<div style="display: flex; gap: 20px; flex-grow: 1">
+<div style="flex-grow: 1; background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column">
+<div style="display: grid; grid-template-columns: 90px 70px 80px 1fr 150px 130px 150px; background: #F0EEE9; font-size: 12px; font-weight: 600; color: #5E5B55">
+<div style="padding: 10px 12px">Date</div><div style="padding: 10px 12px">Class</div><div style="padding: 10px 12px">Subject</div><div style="padding: 10px 12px">Chapter / topic</div><div style="padding: 10px 12px">Method</div><div style="padding: 10px 12px">Homework</div><div style="padding: 10px 12px">Remarks</div>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+<div style="display: grid; grid-template-columns: 90px 70px 80px 1fr 150px 130px 150px; border-top: 1px solid #ECEAE4; font-size: 13px; background: {{r.bg}}">
+<div style="padding: 10px 12px">{{r.date}}</div><div style="padding: 10px 12px">{{r.cls}}</div><div style="padding: 10px 12px">{{r.sub}}</div><div style="padding: 10px 12px">{{r.topic}}</div><div style="padding: 10px 12px">{{r.method}}</div><div style="padding: 10px 12px">{{r.hw}}</div><div style="padding: 10px 12px">{{r.remarks}}</div>
+</div>
+</sc-for>
+</div>
+<div style="width: 260px; display: flex; flex-direction: column; gap: 12px">
+<div style="background: #FDF3E7; border: 1px solid #EBC9A0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 14px; font-weight: 600; color: #8A4608">2 periods not logged</div>
+<div style="font-size: 13px">Wed 23 · 8A Maths · P5</div>
+<div style="font-size: 13px">Fri 25 · 6B Science · P6</div>
+<button type="button" style="min-height: 40px; margin-top: 4px; border: 1px solid #B45309; background: #FFFFFF; color: #8A4608; border-radius: 8px; font-size: 13px; font-weight: 600">Fill now</button>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 14px; font-weight: 600">Class-level notes</div>
+<div style="font-size: 13px">7B Science: Ch 4 needs revision</div>
+<div style="font-size: 13px">6A Maths: on track for Unit Test 1</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+renderVals() {
+const w = '#FFFFFF', gap = '#FDF3E7';
+return {
+rows: [
+{ date: 'Mon 21', cls: '6A', sub: 'Maths', topic: 'Ch [ ] · [topic 5.1]', method: 'Board, examples', hw: 'Ex [ ] Q1–4', remarks: '', bg: w },
+{ date: 'Mon 21', cls: '7B', sub: 'Science', topic: 'Ch 4 · [topic 4.1]', method: 'Demonstration', hw: '—', remarks: '', bg: w },
+{ date: 'Tue 22', cls: '8A', sub: 'Maths', topic: 'Ch 3 · [topic 3.4]', method: 'Board, practice', hw: 'Ex [ ] Q6–10', remarks: 'Good', bg: w },
+{ date: 'Wed 23', cls: '8A', sub: 'Maths', topic: 'Not logged', method: '', hw: '', remarks: '', bg: gap },
+{ date: 'Thu 24', cls: '6A', sub: 'Maths', topic: 'Ch [ ] · [topic 5.2]', method: 'Group activity', hw: 'Worksheet', remarks: '', bg: w },
+{ date: 'Fri 25', cls: '6B', sub: 'Science', topic: 'Not logged', method: '', hw: '', remarks: '', bg: gap },
+{ date: 'Sat 26', cls: '6A', sub: 'Maths', topic: 'Ch [ ] · [topic 5.3]', method: 'Board, examples', hw: 'Ex [ ] Q5–8', remarks: '', bg: w },
+{ date: 'Sat 26', cls: '7B', sub: 'Science', topic: 'Ch 4 · [topic 4.2]', method: 'Activity with magnets', hw: 'Ex 3 Q1–5', remarks: 'Revise 4.2', bg: w }
+]
+};
+}
+}
+</script>
+</body>
+</html>

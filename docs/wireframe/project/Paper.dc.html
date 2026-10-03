@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Question paper builder</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;family=IBM+Plex+Serif:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'IBM Plex Sans','Noto Sans Devanagari',sans-serif;background:#F7F6F2;color:#1F1E1C}
+a{color:#1F5F8B}a:hover{color:#174A6C}
+</style>
+</helmet>
+<div style="width: 1280px; height: 820px; box-sizing: border-box; display: flex; background: #F7F6F2">
+<aside style="width: 220px; background: #FFFFFF; border-right: 1px solid #D6D3CC; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 18px; font-weight: 600; padding: 0 8px 16px">Teaching Diary</div>
+<a href="Main.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Today</a>
+<a href="Chapters.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Chapters and plans</a>
+<a href="Diary.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Diary</a>
+<a href="Paper.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #174A6C; background: #E8EFF5; text-decoration: none">Question papers</a>
+<a href="Diary.dc.html" style="padding: 10px 8px; border-radius: 8px; font-size: 14px; color: #1F1E1C; text-decoration: none">Templates</a>
+</aside>
+<main style="flex-grow: 1; padding: 28px 32px; display: flex; gap: 24px">
+<div style="width: 470px; display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 600">New question paper</h1>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #5E5B55">Class<select style="min-height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font-size: 14px; padding: 0 8px"><option>7</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #5E5B55">Subject<select style="min-height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font-size: 14px; padding: 0 8px"><option>Maths</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #5E5B55">Exam<select style="min-height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font-size: 14px; padding: 0 8px"><option>Half Yearly · 80</option></select></label>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; font-weight: 600">Chapters (ticked from diary: taught)</div>
+<label style="display: flex; gap: 8px; align-items: center; font-size: 14px"><input type="checkbox" checked> Book 1 · Ch 1 [from contents page]</label>
+<label style="display: flex; gap: 8px; align-items: center; font-size: 14px"><input type="checkbox" checked> Book 1 · Ch 2 [from contents page]</label>
+<label style="display: flex; gap: 8px; align-items: center; font-size: 14px"><input type="checkbox" checked> Book 1 · Ch 3 [from contents page]</label>
+<label style="display: flex; gap: 8px; align-items: center; font-size: 14px; color: #5E5B55"><input type="checkbox"> Book 2 · Ch 1 Congruence (Geometric Twins)</label>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 12px; overflow: hidden">
+<div style="padding: 12px 14px; font-size: 14px; font-weight: 600">Half Yearly pattern · 80 marks · 3 hours · 38 questions</div>
+<div style="display: grid; grid-template-columns: 1fr 70px 70px 90px; background: #F0EEE9; font-size: 12px; font-weight: 600; color: #5E5B55">
+<div style="padding: 8px 14px">Section</div><div style="padding: 8px">Qs</div><div style="padding: 8px">Marks</div><div style="padding: 8px">Per Q</div>
+</div>
+<sc-for list="{{sections}}" as="s" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: 1fr 70px 70px 90px; border-top: 1px solid #ECEAE4; font-size: 13px">
+<div style="padding: 8px 14px">{{s.name}}</div><div style="padding: 8px">{{s.qs}}</div><div style="padding: 8px">{{s.marks}}</div><div style="padding: 8px">{{s.level}}</div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" style="flex-grow: 1; min-height: 44px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 14px">Fill from my question bank</button>
+<button type="button" style="flex-grow: 1; min-height: 44px; border: 1px solid #D6D3CC; background: #FFFFFF; border-radius: 10px; font-size: 14px">Suggest with AI (optional)</button>
+</div>
+<button type="button" style="min-height: 48px; border: 0; background: #1F5F8B; color: #FFFFFF; border-radius: 10px; font-size: 15px; font-weight: 600">Generate paper + answer key</button>
+</div>
+<div style="flex-grow: 1; background: #FFFFFF; border: 1px solid #D6D3CC; border-radius: 4px; padding: 32px 36px; display: flex; flex-direction: column; gap: 12px; font-family: 'IBM Plex Serif', 'Noto Sans Devanagari', serif">
+<div style="text-align: center; font-size: 18px; font-weight: 600">[SCHOOL NAME AND LOGO FROM TEMPLATE]</div>
+<div style="text-align: center; font-size: 15px">Half Yearly Examination · Class VII · Mathematics</div>
+<div style="display: flex; justify-content: space-between; font-size: 13px; border-bottom: 1px solid #1F1E1C; padding-bottom: 8px"><span>Time: 3 hours</span><span>Max. Marks: 80</span></div>
+<div style="font-size: 13px; color: #5E5B55">General instructions: [from template]</div>
+<div style="font-size: 14px; font-weight: 600">Section A · MCQ (15 × 1 = 15)</div>
+<div style="font-size: 14px">1. [MCQ from bank · Ch 1] (a) … (b) … (c) … (d) …</div>
+<div style="font-size: 14px; font-weight: 600">Section B · (10 × 2 = 20)</div>
+<div style="font-size: 14px">16. [Question from bank · Ch 2]</div>
+<div style="font-size: 14px; font-weight: 600">Section C · (7 × 3 = 21)</div>
+<div style="font-size: 14px">26. [Question from bank · Ch 3]</div>
+<div style="font-size: 14px; font-weight: 600">Section D · (6 × 4 = 24)</div>
+<div style="font-size: 14px">33. [Question from bank · Ch 1]</div>
+<div style="margin-top: auto; font-size: 12px; color: #5E5B55; font-family: 'IBM Plex Sans', sans-serif">Preview of page 1 · replace any question by clicking it</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+sections: [
+{ name: 'A · MCQ', qs: '15', marks: '15', level: '1 each' },
+{ name: 'B', qs: '10', marks: '20', level: '2 each' },
+{ name: 'C', qs: '7', marks: '21', level: '3 each' },
+{ name: 'D', qs: '6', marks: '24', level: '4 each' },
+{ name: 'Total', qs: '38', marks: '80', level: '' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+:root {
+  --bg: #F7F6F2; --card: #FFFFFF; --line: #D6D3CC; --ink: #1F1E1C; --muted: #5E5B55;
+  --accent: #1F5F8B; --accent-d: #174A6C; --tint: #E8EFF5; --warn: #8A4608; --warn-bg: #FDF3E7;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.45 "IBM Plex Sans", "Noto Sans Devanagari", system-ui, sans-serif; }
+h1 { font-size: 22px; margin: 0 0 2px; }
+h2 { font-size: 16px; margin: 0 0 8px; }
+.muted { color: var(--muted); margin: 0 0 12px; }
+.note { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+.warn { background: var(--warn-bg); border: 1px solid #EBC9A0; color: var(--warn); padding: 8px 10px; border-radius: 8px; font-size: 13px; }
+
+.app { display: flex; min-height: 100vh; }
+.panel { width: 380px; flex: none; padding: 20px; background: var(--card); border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 100vh; position: sticky; top: 0; }
+.main { flex: 1; padding: 20px 24px; min-width: 0; }
+
+label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+label.inline { flex-direction: row; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); }
+input, select, textarea { font: inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; padding: 8px; min-height: 40px; }
+textarea { resize: vertical; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 8px; }
+.row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
+fieldset { border: 1px solid var(--line); border-radius: 10px; margin: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+legend { font-weight: 600; padding: 0 6px; font-size: 13px; }
+fieldset label.chk { flex-direction: row; align-items: center; gap: 8px; font-size: 14px; color: var(--ink); }
+.stack { display: flex; flex-direction: column; gap: 8px; }
+
+button, .btn { font: inherit; min-height: 40px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line);
+  background: #fff; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+button:hover, .btn:hover { background: #F0EEE9; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; min-height: 46px; }
+button.primary:hover { background: var(--accent-d); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #ECEAE4; vertical-align: top; }
+th { background: #F0EEE9; font-size: 12px; color: var(--muted); }
+#pattern input { width: 64px; min-height: 32px; padding: 4px 6px; }
+
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; align-items: center; }
+.tabs .spacer { flex: 1; }
+.tabs button[data-tab].active { background: var(--tint); border-color: var(--accent); color: var(--accent-d); font-weight: 600; }
+
+/* The paper itself: A4-like sheet, serif for exam look */
+.sheet { background: #fff; border: 1px solid var(--line); max-width: 794px; margin: 0 auto; padding: 18mm 16mm;
+  font-family: "IBM Plex Serif", "Noto Serif Devanagari", Georgia, serif; font-size: 12.5pt; line-height: 1.5; }
+.sheet h2.school { text-align: center; font-size: 16pt; margin: 0; }
+.sheet .sub { text-align: center; margin: 2px 0; }
+.sheet .meta { display: flex; justify-content: space-between; border-bottom: 1.5px solid #000; padding-bottom: 6px; margin: 8px 0; }
+.sheet .instr { font-size: 11pt; margin: 6px 0 10px; white-space: pre-wrap; }
+.sheet h3 { font-size: 12.5pt; margin: 16px 0 6px; padding: 3px 0; border-bottom: 1px solid #000; display: flex; justify-content: space-between; }
+.q { display: grid; grid-template-columns: 34px 1fr auto; gap: 4px; margin: 6px 0; break-inside: avoid; }
+.q .marks { font-size: 10.5pt; color: var(--muted); }
+.q.missing .qt { color: var(--warn); font-style: italic; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 16px; margin-top: 2px; }
+.q .tools { grid-column: 2 / 4; }
+.q .tools button { min-height: 26px; font-size: 11px; padding: 0 8px; font-family: system-ui, sans-serif; }
+.key .ans { color: #174A6C; }
+.ch-tag { font: 10px system-ui, sans-serif; color: var(--muted); }
+
+.bank-tools { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+.addform { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+.tablewrap { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
+
+@media (max-width: 900px) {
+  .app { flex-direction: column; }
+  .panel { width: 100%; max-height: none; position: static; border-right: 0; border-bottom: 1px solid var(--line); }
+  .sheet { padding: 12mm 8mm; }
+  .row4 { grid-template-columns: 1fr 1fr; }
+}
+
+@page { size: A4; margin: 14mm; }
+@media print {
+  body { background: #fff; }
+  .no-print, .q .tools { display: none !important; }
+  .app { display: block; }
+  .main { padding: 0; }
+  .sheet { border: 0; max-width: none; padding: 0; margin: 0; }
+  body.print-key #tab-paper, body:not(.print-key) #tab-key { display: none !important; }
+  .tab[hidden] { display: block !important; }
+}
